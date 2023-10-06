@@ -12,6 +12,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Function to fetch data based on user input
   const fetchData = async (input: string) => {
     try {
       // Simulate an asynchronous operation using setTimeout
@@ -23,7 +24,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
               item.toLowerCase().includes(input.toLowerCase())
             );
             resolve(filteredItems);
-          }, 500) // Simulate a 1-second delay
+          }, 500) // Simulate a 1/2-second delay
       );
 
       setSuggestions(filteredData);
@@ -32,6 +33,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     }
   };
 
+  // Debounce user input to reduce the number of API calls
   const handleChangeText = useDebounce(
     (inputValue: string) => {
       if (inputValue) {
@@ -44,6 +46,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     []
   );
 
+  // Reset the component's state
   const handleReset = () => {
     if (highlightedIndex >= 0) {
       setHighlightedIndex(-1);
@@ -54,6 +57,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     }
   };
 
+  // Handle form submission
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (highlightedIndex >= 0) {
@@ -62,6 +66,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     handleReset();
   };
 
+  // Scroll a suggestion into view when navigating with arrow keys
   const scrollSuggestionIntoView = (index: number) => {
     const suggestionElement = document.querySelector(
       `.suggestions li:nth-child(${index + 1})`
@@ -74,6 +79,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     }
   };
 
+  // Handle Arrow Up key press
   const handleArrowUp = () => {
     if (highlightedIndex > 0) {
       setHighlightedIndex((prevIndex) => prevIndex - 1);
@@ -81,6 +87,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     }
   };
 
+  // Handle Arrow Down key press
   const handleArrowDown = () => {
     if (highlightedIndex < suggestions.length - 1) {
       setHighlightedIndex((prevIndex) => prevIndex + 1);
@@ -88,6 +95,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     }
   };
 
+  // Handle keydown event to navigate through suggestions using arrow keys
   const handleKeyDown = (e: Event) => {
     const keyboardEvent = e as KeyboardEvent;
     if (keyboardEvent.key === "ArrowUp") {
@@ -99,11 +107,13 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     }
   };
 
+  // Add a keydown event listener when the component mounts
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  // Render the AutoComplete component
   return (
     <form className="auto-complete" onSubmit={handleSubmit}>
       <h1>AutoComplete</h1>
