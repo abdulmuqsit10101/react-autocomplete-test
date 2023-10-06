@@ -28,5 +28,5 @@ If you are developing a production application, we recommend updating the config
 
 ## Commands to Run the app:
 
-- yarn or npm install
-- yarn dev or npm run dev
+1. yarn or npm install
+2. yarn dev or npm run dev
