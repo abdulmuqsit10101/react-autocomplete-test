@@ -1,7 +1,10 @@
+import ReactAutoComplete from './components/react-autocomplete';
+import "./App.css";
+
 function App() {
   return (
-    <div>
-        App clean up!
+    <div className='app'>
+        <ReactAutoComplete />
     </div>
   )
 }
